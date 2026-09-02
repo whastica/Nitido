@@ -4,28 +4,28 @@
 
 @layer base {
   :root {
-    --background: 260 18% 5%;
-    --foreground: 0 0% 96%;
-    --card: 255 16% 8%;
-    --card-foreground: 0 0% 96%;
-    --popover: 255 16% 8%;
-    --popover-foreground: 0 0% 96%;
-    --primary: 160 84% 39%;
+    --background: 150 8% 6%;
+    --foreground: 60 9% 94%;
+    --card: 150 7% 9%;
+    --card-foreground: 60 9% 94%;
+    --popover: 150 7% 9%;
+    --popover-foreground: 60 9% 94%;
+    --primary: 158 64% 40%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 255 14% 12%;
-    --secondary-foreground: 0 0% 82%;
-    --muted: 255 12% 10%;
-    --muted-foreground: 255 8% 62%;
-    --accent: 270 80% 72%;
-    --accent-foreground: 0 0% 100%;
+    --secondary: 150 6% 13%;
+    --secondary-foreground: 60 5% 82%;
+    --muted: 150 6% 11%;
+    --muted-foreground: 150 5% 60%;
+    --accent: 32 70% 65%;
+    --accent-foreground: 20 40% 12%;
     --destructive: 348 75% 60%;
     --destructive-foreground: 0 0% 100%;
-    --border: 255 10% 16%;
-    --input: 255 10% 16%;
-    --ring: 160 84% 39%;
+    --border: 150 6% 16%;
+    --input: 150 6% 16%;
+    --ring: 158 64% 40%;
     --radius: 0.75rem;
-    --brand-500: 16 185 129;
-    --surface-glow: rgba(16, 185, 129, 0.10);
+    --brand-500: 16 163 116;
+    --surface-glow: rgb(var(--brand-500) / 0.10);
     --noise-opacity: 0.03;
   }
 
@@ -51,7 +51,7 @@
   }
 
   ::selection {
-    background: rgba(16, 185, 129, 0.25);
+    background: rgb(var(--brand-500) / 0.25);
     color: hsl(var(--foreground));
   }
 
@@ -76,7 +76,7 @@
 
 @layer utilities {
   .glass {
-    background: rgba(13, 13, 30, 0.7);
+    background: rgba(10, 14, 12, 0.7);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.06);
@@ -98,13 +98,13 @@
   }
 
   .border-premium {
-    border: 1px solid rgba(16, 185, 129, 0.14);
+    border: 1px solid rgb(var(--brand-500) / 0.14);
   }
 
   .bg-premium-radial {
     background:
-      radial-gradient(circle at top, rgba(16,185,129,0.16), transparent 45%),
-      rgba(10,10,14,0.72);
+      radial-gradient(circle at top, rgb(var(--brand-500) / 0.16), transparent 45%),
+      rgba(8, 12, 10, 0.72);
   }
 
   .card-hover {
@@ -113,22 +113,22 @@
 
   .card-hover:hover {
     transform: translateY(-3px);
-    border-color: rgba(16,185,129,0.18);
+    border-color: rgb(var(--brand-500) / 0.18);
     background: rgba(255,255,255,0.03);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.35), 0 0 0 1px rgba(16,185,129,0.05);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.35), 0 0 0 1px rgb(var(--brand-500) / 0.05);
   }
 
   .glow-brand {
-    box-shadow: 0 0 30px rgba(16, 185, 129, 0.25);
+    box-shadow: 0 0 30px rgb(var(--brand-500) / 0.25);
   }
 
   .glow-brand-sm {
-    box-shadow: 0 0 16px rgba(16, 185, 129, 0.2);
+    box-shadow: 0 0 16px rgb(var(--brand-500) / 0.2);
   }
 
   .gradient-text {
     @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, #ecfdf5 0%, #6ee7b7 30%, #10b981 65%, #047857 100%);
+    background-image: linear-gradient(135deg, #ecfdf5 0%, #6ee7b7 30%, #10a37a 65%, #047857 100%);
   }
 
   .shimmer {

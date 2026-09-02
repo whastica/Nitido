@@ -55,14 +55,14 @@ const config: Config = {
           200: "#a7f3d0",
           300: "#6ee7b7",
           400: "#34d399",
-          500: "#10b981",
+          500: "#10a374",
           600: "#059669",
           700: "#047857",
           800: "#065f46",
           900: "#064e3b",
           950: "#022c22",
         },
-        "brand-glow": "rgba(16, 185, 129, 0.35)",
+        "brand-glow": "rgb(var(--brand-500) / 0.35)",
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -87,8 +87,8 @@ const config: Config = {
           to: { opacity: "1", transform: "translateX(0)" },
         },
         "pulse-glow": {
-          "0%, 100%": { boxShadow: "0 0 0 0 rgba(16,185,129,0)" },
-          "50%": { boxShadow: "0 0 20px 4px rgba(16,185,129,0.3)" },
+          "0%, 100%": { boxShadow: "0 0 0 0 rgb(var(--brand-500) / 0)" },
+          "50%": { boxShadow: "0 0 20px 4px rgb(var(--brand-500) / 0.3)" },
         },
         shimmer: {
           "0%": { backgroundPosition: "-200% 0" },
