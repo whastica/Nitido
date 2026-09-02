@@ -1,6 +1,7 @@
 // ─── Domain: Prompt ───────────────────────────────────────────────────────────
-export type InputSourceType = "text" | "pdf" | "docx" | "txt" | "audio";
-export type OutputFormat = "generic" | "chatgpt" | "claude" | "gemini";
+export type InputSourceType = "text" | "pdf" | "docx" | "txt" | "voice";
+export type OutputFormat = "libre" | "vietas" | "tabla" | "json" | "codigo";
+export type TargetTool = "chatbot" | "codigo" | "imagen";
 export type DetailLevel = "basic" | "standard" | "detailed";
 export type Language = "es" | "en";
 
@@ -41,10 +42,11 @@ export interface Prompt {
 
 // ─── Domain: Optimization Config ─────────────────────────────────────────────
 export interface OptimizationConfig {
-  outputFormat: OutputFormat;
   language: Language;
   detailLevel: DetailLevel;
-  includeExamples: boolean;
+  includeConstraints: boolean;
+  targetTool: TargetTool;
+  outputFormat: OutputFormat;
 }
 
 // ─── Domain: Optimization Result ─────────────────────────────────────────────
@@ -127,6 +129,15 @@ export interface UploadResult {
 export interface TranscriptionResult {
   text: string;
   duration: number;
+  language: string;
+}
+
+// ─── Voice Input (Web Speech API) ────────────────────────────────────────────
+export type VoiceInputState = "idle" | "listening" | "processing" | "error";
+
+export interface VoiceInputResult {
+  text: string;
+  confidence: number;
   language: string;
 }
 
@@ -213,6 +224,26 @@ export interface SSEErrorEvent {
 }
 
 export type SSEEvent = SSEProgressEvent | SSEResultEvent | SSEWarningEvent | SSEErrorEvent;
+
+// ─── Dashboard & History ─────────────────────────────────────────────────────
+export interface HistoryItem {
+  id: string;
+  inputText: string;
+  sourceType: InputSourceType;
+  generatedPrompt: string;
+  compactPrompt: string;
+  qualityScore: number;
+  config: OptimizationConfig;
+  createdAt: Date;
+}
+
+export interface DashboardData {
+  totalPrompts: number;
+  avgQuality: number;
+  totalTokens: number;
+  timeSaved: number;
+  recentPrompts: HistoryItem[];
+}
 
 // ─── Misc ─────────────────────────────────────────────────────────────────────
 export interface NavItem {

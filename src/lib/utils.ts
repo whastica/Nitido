@@ -54,11 +54,10 @@ export function getInitials(name: string): string {
     .slice(0, 2);
 }
 
-export function detectFileType(file: File): "pdf" | "docx" | "txt" | "audio" | "unknown" {
+export function detectFileType(file: File): "pdf" | "docx" | "txt" | "unknown" {
   const ext = file.name.split(".").pop()?.toLowerCase();
   if (ext === "pdf") return "pdf";
   if (ext === "docx" || ext === "doc") return "docx";
   if (ext === "txt") return "txt";
-  if (["mp3", "mp4", "m4a", "wav", "webm"].includes(ext ?? "")) return "audio";
   return "unknown";
 }
