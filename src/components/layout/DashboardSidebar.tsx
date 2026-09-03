@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useUser } from "@clerk/nextjs";
 import {
   Zap, LayoutDashboard, History,
   Settings, ChevronRight, Sparkles,
@@ -10,9 +11,6 @@ import { cn, getInitials } from "@/lib/utils";
 import { ROUTES } from "@/constants";
 import { Badge } from "@/components/ui/badge";
 
-// Clerk DESHABILITADO temporalmente
-// TODO: Re-habilitar con useUser de @clerk/nextjs
-
 const NAV_ITEMS = [
   { label: "Dashboard",     href: ROUTES.dashboard, icon: LayoutDashboard, strict: true },
   { label: "Optimizar",     href: ROUTES.optimize,  icon: Sparkles,       strict: false },
@@ -20,21 +18,14 @@ const NAV_ITEMS = [
   { label: "Configuración", href: ROUTES.settings,  icon: Settings,       strict: false },
 ] as const;
 
-// Mock user para desarrollo
-const MOCK_USER = {
-  fullName: "Usuario Demo",
-  firstName: "Usuario",
-  primaryEmailAddress: { emailAddress: "demo@promptoptimizer.dev" },
-  imageUrl: undefined as string | undefined,
-};
-
 export function DashboardSidebar() {
   const pathname = usePathname();
+  const { user } = useUser();
 
-  const displayName = MOCK_USER.fullName;
-  const displayEmail = MOCK_USER.primaryEmailAddress.emailAddress;
+  const displayName = user?.fullName || user?.firstName || "Usuario";
+  const displayEmail = user?.primaryEmailAddress?.emailAddress || "";
   const initials = getInitials(displayName);
-  const avatarUrl = MOCK_USER.imageUrl;
+  const avatarUrl = user?.imageUrl;
 
   return (
     <aside className="hidden md:flex w-60 flex-col border-r border-border bg-card/50 backdrop-blur-sm">

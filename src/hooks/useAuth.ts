@@ -1,10 +1,8 @@
 "use client";
 
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
+import { useUser, useClerk } from "@clerk/nextjs";
 import type { User } from "@/types";
-
-// Clerk DESHABILITADO temporalmente
-// TODO: Re-habilitar con useUser y useClerk de @clerk/nextjs
 
 interface UseAuthReturn {
   user: User | null;
@@ -14,30 +12,30 @@ interface UseAuthReturn {
   clearError: () => void;
 }
 
-// Mock user para desarrollo
-const MOCK_USER: User = {
-  id: "dev-user-mock",
-  name: "Usuario Demo",
-  email: "demo@promptoptimizer.dev",
-  avatarUrl: undefined,
-  createdAt: new Date(),
-};
-
 export function useAuth(): UseAuthReturn {
-  const [error, setError] = useState<string | null>(null);
+  const { user: clerkUser, isLoaded } = useUser();
+  const { signOut } = useClerk();
+
+  const user: User | null = clerkUser
+    ? {
+        id: clerkUser.id,
+        name: clerkUser.fullName || clerkUser.firstName || "Usuario",
+        email: clerkUser.primaryEmailAddress?.emailAddress || "",
+        avatarUrl: clerkUser.imageUrl,
+        createdAt: clerkUser.createdAt ?? new Date(),
+      }
+    : null;
 
   const logout = useCallback(async () => {
-    // Mock logout - redirigir a home
+    await signOut();
     window.location.href = "/";
-  }, []);
-
-  const clearError = useCallback(() => setError(null), []);
+  }, [signOut]);
 
   return {
-    user: MOCK_USER,
-    isLoading: false,
-    error,
+    user,
+    isLoading: !isLoaded,
+    error: null,
     logout,
-    clearError,
+    clearError: () => {},
   };
 }

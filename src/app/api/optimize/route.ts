@@ -4,7 +4,8 @@ import { apiError, catchApiError } from "@/lib/api";
 import { requireAuth } from "@/lib/auth";
 import { logger } from "@/lib/logger";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
-import { useMockAI, env } from "@/lib/env";
+import { useMockAI, useMockDB, env } from "@/lib/env";
+import { savePrompt, saveGeneration } from "@/services/db/prompts.service";
 import type {
   OptimizationResult,
   OptimizationConfig,
@@ -259,7 +260,7 @@ Formato de salida: ${config.outputFormat}`;
 
 export async function POST(req: NextRequest) {
   return catchApiError(async () => {
-    await requireAuth();
+    const { userId } = await requireAuth();
     const requestId = `opt_${Date.now()}`;
     logger.info("optimize: request received", { requestId });
 
@@ -287,10 +288,45 @@ export async function POST(req: NextRequest) {
       start: async (controller) => {
         const encoder = new TextEncoder();
         try {
+          let result: OptimizationResult;
           if (useMockAI) {
-            await mockOptimizationPipeline(text, sourceType, config, controller, encoder, requestId);
+            result = await mockOptimizationPipeline(text, sourceType, config, controller, encoder, requestId);
           } else {
-            await openAIOptimizationPipeline(text, sourceType, config, controller, encoder, requestId);
+            result = await openAIOptimizationPipeline(text, sourceType, config, controller, encoder, requestId);
+          }
+
+          if (!useMockDB) {
+            try {
+              const savedPrompt = await savePrompt({
+                userId,
+                sourceType,
+                inputText: text,
+                generatedPrompt: result.prompt.generatedPrompt,
+                structuredPrompt: result.prompt.structuredPrompt as unknown as Record<string, unknown>,
+                compactPrompt: result.prompt.compactPrompt,
+                qualityScore: result.prompt.qualityScore,
+                qualityChecklist: result.prompt.qualityChecklist as unknown as Record<string, unknown>,
+                improvements: result.prompt.improvements,
+                tokensUsed: result.tokensUsed,
+                latencyMs: result.prompt.latencyMs,
+              });
+
+              await saveGeneration({
+                userId,
+                promptId: savedPrompt.id,
+                sourceType,
+                config: config as unknown as Record<string, unknown>,
+                tokensUsed: result.tokensUsed,
+                latencyMs: result.prompt.latencyMs,
+              });
+
+              logger.info("optimize: saved to database", { requestId, promptId: savedPrompt.id });
+            } catch (dbError) {
+              logger.error("optimize: failed to save to database", {
+                requestId,
+                error: dbError instanceof Error ? dbError.message : "Unknown DB error",
+              });
+            }
           }
         } catch (err) {
           const message = err instanceof Error ? err.message : "Error desconocido en la optimización";

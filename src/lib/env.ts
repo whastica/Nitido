@@ -7,7 +7,7 @@ const envSchema = z.object({
   NEXT_PUBLIC_SUPABASE_URL: z.string().default("https://placeholder.supabase.co"),
   NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string().default("placeholder"),
   SUPABASE_SERVICE_ROLE_KEY: z.string().default("placeholder"),
-  // Clerk - DESHABILITADO temporalmente (se re-habilitará con credenciales reales)
+  // Clerk
   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string().optional(),
   CLERK_SECRET_KEY: z.string().optional(),
   NEXT_PUBLIC_CLERK_SIGN_IN_URL: z.string().default("/login"),
@@ -22,14 +22,14 @@ const envSchema = z.object({
   UPSTASH_REDIS_REST_TOKEN: z.string().optional(),
 }).refine(
   (data) => {
-    if (data.NODE_ENV === "production" && data.USE_MOCK_AI === "false") {
-      return !!data.UPSTASH_REDIS_REST_URL && !!data.UPSTASH_REDIS_REST_TOKEN;
+    if (data.NODE_ENV === "production" && data.USE_MOCK_AI === "false" && data.UPSTASH_REDIS_REST_URL) {
+      return !!data.UPSTASH_REDIS_REST_TOKEN;
     }
     return true;
   },
   {
     message:
-      "UPSTASH_REDIS_REST_URL y UPSTASH_REDIS_REST_TOKEN son obligatorios en producción con USE_MOCK_AI=false",
+      "UPSTASH_REDIS_REST_TOKEN es obligatorio cuando UPSTASH_REDIS_REST_URL está configurado en producción",
   }
 );
 

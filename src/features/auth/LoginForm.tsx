@@ -1,33 +1,31 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useSignIn } from "@clerk/nextjs";
 import { Check } from "lucide-react";
 import { ROUTES } from "@/constants";
 
-// Clerk DESHABILITADO temporalmente
-// TODO: Re-habilitar con useSignIn y useSignUp de @clerk/nextjs
-
 export function LoginForm() {
-  const router = useRouter();
+  const { signIn, fetchStatus } = useSignIn();
   const [done, setDone] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
 
   const handleGoogleAuth = async () => {
+    if (!signIn) return;
+
     setIsLoading(true);
     setServerError(null);
 
     try {
-      // Mock login - simular autenticación exitosa
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      setDone(true);
-      setTimeout(() => {
-        router.push(ROUTES.dashboard);
-      }, 1500);
-    } catch {
+      await signIn.sso({
+        strategy: "oauth_google",
+        redirectCallbackUrl: "/sso-callback",
+        redirectUrl: "/dashboard",
+      });
+    } catch (err) {
+      console.error("Error de autenticación:", err);
       setServerError("Error al conectar con Google. Intenta de nuevo.");
-    } finally {
       setIsLoading(false);
     }
   };
@@ -62,7 +60,7 @@ export function LoginForm() {
       <button
         type="button"
         onClick={handleGoogleAuth}
-        disabled={isLoading}
+        disabled={isLoading || fetchStatus === "fetching"}
         className="flex w-full items-center justify-center gap-2.5 rounded-lg border border-border bg-muted/30 px-4 py-3 text-sm font-medium text-foreground hover:bg-muted/60 hover:border-border/80 transition-all duration-150 disabled:opacity-50"
       >
         <svg viewBox="0 0 24 24" className="h-5 w-5 flex-shrink-0">

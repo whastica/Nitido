@@ -8,12 +8,11 @@ import { PromptCard } from "@/features/optimizer/PromptCard";
 import { PromptCardSkeleton } from "@/components/shared/Skeletons";
 import type { HistoryItem } from "@/types";
 
-function fetchHistory(): Promise<HistoryItem[]> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve([]);
-    }, 500);
-  });
+async function fetchHistory(): Promise<HistoryItem[]> {
+  const res = await fetch("/api/history");
+  if (!res.ok) throw new Error("Error fetching history");
+  const { data } = await res.json();
+  return data;
 }
 
 export default function HistoryPage() {

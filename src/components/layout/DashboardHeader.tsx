@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
+import { useUser } from "@clerk/nextjs";
+import { UserButton } from "@clerk/nextjs";
 import {
   Bell,
   HelpCircle,
@@ -12,22 +14,12 @@ import {
 
 import { Button } from "@/components/ui/button";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
   Sheet,
   SheetContent,
   SheetTrigger,
 } from "@/components/ui/sheet";
 
 import { ROUTES } from "@/constants";
-
-// Clerk DESHABILITADO temporalmente
-// TODO: Re-habilitar con useUser y useClerk de @clerk/nextjs
 
 const BREADCRUMB_MAP: Record<string, string> = {
   "/dashboard": "Dashboard",
@@ -36,28 +28,12 @@ const BREADCRUMB_MAP: Record<string, string> = {
   "/dashboard/settings": "Configuración",
 };
 
-// Mock user para desarrollo
-const MOCK_USER = {
-  fullName: "Usuario Demo",
-  firstName: "Usuario",
-  primaryEmailAddress: { emailAddress: "demo@promptoptimizer.dev" },
-};
-
 export function DashboardHeader() {
   const pathname = usePathname();
-  const router = useRouter();
+  const { user } = useUser();
   const [mobileOpen, setMobileOpen] = useState(false);
 
   const pageTitle = BREADCRUMB_MAP[pathname] ?? "Dashboard";
-
-  const displayName = MOCK_USER.fullName || MOCK_USER.firstName || "Usuario";
-  const displayEmail = MOCK_USER.primaryEmailAddress.emailAddress || "";
-  const initials = displayName.split(" ").map((word) => word[0]).join("").slice(0, 2).toUpperCase();
-
-  const handleLogout = async () => {
-    // Mock logout - redirigir a home
-    router.push("/");
-  };
 
   return (
     <header className="flex h-14 items-center gap-4 border-b border-border bg-card/30 backdrop-blur-sm px-4 md:px-6">
@@ -110,37 +86,13 @@ export function DashboardHeader() {
           <Bell className="h-4 w-4" />
         </Button>
 
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full">
-              <div className="flex h-7 w-7 items-center justify-center rounded-full bg-brand-500/20 text-xs font-semibold text-brand-300">
-                {initials}
-              </div>
-            </Button>
-          </DropdownMenuTrigger>
-
-          <DropdownMenuContent align="end" className="w-48">
-            <div className="px-2 py-1.5">
-              <p className="text-xs font-medium">{displayName}</p>
-              <p className="text-[11px] text-muted-foreground">{displayEmail}</p>
-            </div>
-
-            <DropdownMenuSeparator />
-
-            <DropdownMenuItem asChild>
-              <Link href={ROUTES.settings}>Configuración</Link>
-            </DropdownMenuItem>
-
-            <DropdownMenuSeparator />
-
-            <DropdownMenuItem
-              onClick={handleLogout}
-              className="text-destructive focus:text-destructive"
-            >
-              Cerrar sesión
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <UserButton
+          appearance={{
+            elements: {
+              avatarBox: "h-8 w-8",
+            },
+          }}
+        />
       </div>
     </header>
   );

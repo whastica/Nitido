@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { DM_Sans, Syne } from "next/font/google";
 import { Toaster } from "sonner";
+import { ClerkProvider } from "@clerk/nextjs";
 import { QueryProvider } from "@/components/shared/QueryProvider";
 import "../styles/globals.css";
 
@@ -45,30 +46,33 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html
-      lang="es"
-      className={`${dmSans.variable} ${syne.variable} dark`}
-      suppressHydrationWarning
-    >
-      <body
-        className="min-h-screen bg-background font-sans antialiased"
+    <ClerkProvider>
+      <html
+        lang="es"
+        className={`${dmSans.variable} ${syne.variable} dark`}
         suppressHydrationWarning
       >
-        <QueryProvider>
-          {children}
-          <Toaster
-            theme="dark"
-            position="bottom-right"
-            toastOptions={{
-              style: {
-                background: "hsl(255 16% 8%)",
-                border: "1px solid hsl(255 10% 16%)",
-                color: "hsl(0 0% 96%)",
-              },
-            }}
-          />
-        </QueryProvider>
-      </body>
-    </html>
+        <body
+          className="min-h-screen bg-background font-sans antialiased"
+          suppressHydrationWarning
+        >
+          <div id="clerk-captcha" />
+          <QueryProvider>
+            {children}
+            <Toaster
+              theme="dark"
+              position="bottom-right"
+              toastOptions={{
+                style: {
+                  background: "hsl(255 16% 8%)",
+                  border: "1px solid hsl(255 10% 16%)",
+                  color: "hsl(0 0% 96%)",
+                },
+              }}
+            />
+          </QueryProvider>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

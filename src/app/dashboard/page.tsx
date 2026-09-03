@@ -4,25 +4,13 @@ import { useQuery } from "@tanstack/react-query";
 import { FileText, Clock, TrendingUp, Calendar } from "lucide-react";
 import { StatCard } from "@/components/shared/StatCard";
 import { DashboardStatsSkeleton } from "@/components/shared/Skeletons";
+import type { DashboardData } from "@/types";
 
-interface DashboardData {
-  totalPrompts: number;
-  avgQuality: number;
-  totalTokens: number;
-  timeSaved: number;
-}
-
-function fetchDashboard(): Promise<DashboardData> {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve({
-        totalPrompts: 0,
-        avgQuality: 0,
-        totalTokens: 0,
-        timeSaved: 0,
-      });
-    }, 500);
-  });
+async function fetchDashboard(): Promise<DashboardData> {
+  const res = await fetch("/api/dashboard");
+  if (!res.ok) throw new Error("Error fetching dashboard");
+  const { data } = await res.json();
+  return data;
 }
 
 export default function DashboardPage() {

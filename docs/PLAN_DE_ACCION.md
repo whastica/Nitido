@@ -5,7 +5,7 @@
 
 ---
 
-## Estado: Front-end COMPLETO ✅ | Back-end PENDIENTE ❌
+## Estado: Front-end COMPLETO ✅ | Back-end COMPLETO ✅
 
 ```
 ✅ Fase 0   Paleta de colores
@@ -15,17 +15,18 @@
 ✅ Fase 4   Hooks (useOptimization, useLastOptimization)
 ✅ Fase 5   Páginas del Dashboard (4 páginas conectadas)
 ✅ Fase 6   API Routes mock (/api/optimize con SSE)
+✅ Fase 7   DB Schema + Migración Supabase
+✅ Fase 8   DB Services (prompts, dashboard)
+✅ Fase 9   API Routes reales + conectar páginas
 ✅ Fase 10  Pipeline IA real (mock + OpenAI)
 ✅ Fase 11  Testing y Build (type-check + build pasan)
 ────────────────────────────────────────
-❌ Fase 7   DB Schema + Migración Supabase     ← SIGUIENTE
-❌ Fase 8   DB Services (prompts, dashboard)
-❌ Fase 9   API Routes reales + conectar páginas
+🔄 Fase 12  Deploy a producción (pendiente)
 ```
 
 ---
 
-## ❌ Fase 7: DB Schema + Migración Supabase
+## ✅ Fase 7: DB Schema + Migración Supabase
 
 | # | Tarea | Archivo | Detalle |
 |---|---|---|---|
@@ -34,7 +35,7 @@
 
 ---
 
-## ❌ Fase 8: DB Services
+## ✅ Fase 8: DB Services
 
 | # | Tarea | Archivo | Detalle |
 |---|---|---|---|
@@ -43,7 +44,7 @@
 
 ---
 
-## ❌ Fase 9: API Routes Reales + Conectar Páginas
+## ✅ Fase 9: API Routes Reales + Conectar Páginas
 
 | # | Tarea | Archivo | Detalle |
 |---|---|---|---|
@@ -54,9 +55,9 @@
 
 ---
 
-## Archivos Pendientes
+## Archivos Creados/Modificados
 
-### Por crear (5)
+### Creados (5)
 ```
 supabase/migrations/001_initial_schema.sql
 src/services/db/prompts.service.ts
@@ -65,7 +66,7 @@ src/app/api/history/route.ts
 src/app/api/dashboard/route.ts
 ```
 
-### Por modificar (3)
+### Modificados (3)
 ```
 src/app/api/optimize/route.ts           ← savePrompt() cuando USE_MOCK_DB=false
 src/app/dashboard/page.tsx              ← usar /api/dashboard
@@ -77,8 +78,8 @@ src/app/dashboard/history/page.tsx      ← usar /api/history
 ## Stack Técnico
 
 - Next.js 16 + TypeScript 6 + Tailwind CSS + shadcn/ui
-- Clerk (deshabilitado, mock dev-user-mock)
-- Supabase (PostgreSQL) — **pendiente configurar**
+- Clerk (deshabilitado, mock dev-user-mock) — **credenciales configuradas**
+- Supabase (PostgreSQL) — **configurado, migración pendiente de ejecutar**
 - OpenAI gpt-4o-mini — funcionando (mock + real)
 - TanStack React Query + Upstash Redis + react-dropzone + Web Speech API
 

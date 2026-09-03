@@ -14,22 +14,24 @@ export function formatBytes(bytes: number, decimals = 2): string {
   return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i] ?? "Bytes"}`;
 }
 
-export function formatDate(date: Date): string {
+export function formatDate(date: Date | string): string {
+  const d = date instanceof Date ? date : new Date(date);
   return new Intl.DateTimeFormat("es-CO", {
     year: "numeric",
     month: "short",
     day: "numeric",
-  }).format(date);
+  }).format(d);
 }
 
-export function formatRelativeTime(date: Date): string {
+export function formatRelativeTime(date: Date | string): string {
+  const d = date instanceof Date ? date : new Date(date);
   const now = new Date();
-  const diffMs = now.getTime() - date.getTime();
+  const diffMs = now.getTime() - d.getTime();
   const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
   if (diffDays === 0) return "Hoy";
   if (diffDays === 1) return "Ayer";
   if (diffDays < 7) return `Hace ${diffDays} días`;
-  return formatDate(date);
+  return formatDate(d);
 }
 
 export function sleep(ms: number): Promise<void> {
