@@ -1,15 +1,24 @@
-import { createClient } from "@supabase/supabase-js";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+let _client: SupabaseClient | null = null;
 
-if (!supabaseUrl) throw new Error("NEXT_PUBLIC_SUPABASE_URL no está configurada");
-if (!serviceKey) throw new Error("SUPABASE_SERVICE_ROLE_KEY no está configurada");
+export function getSupabaseServer(): SupabaseClient {
+  if (_client) return _client;
 
-export function getSupabaseServer() {
-  return createClient(supabaseUrl, serviceKey, {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!supabaseUrl || !serviceKey) {
+    throw new Error(
+      "Supabase no está configurado. Configura NEXT_PUBLIC_SUPABASE_URL y SUPABASE_SERVICE_ROLE_KEY en .env.local"
+    );
+  }
+
+  _client = createClient(supabaseUrl, serviceKey, {
     auth: { persistSession: false },
   });
+
+  return _client;
 }
 
 export interface DbPrompt {

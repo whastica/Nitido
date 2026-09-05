@@ -11,6 +11,7 @@ export interface DashboardData {
     qualityScore: number | null;
     createdAt: string;
   }>;
+  activityByDay: Array<{ day: string; count: number }>;
 }
 
 export async function getDashboardData(userId: string): Promise<DashboardData> {
@@ -49,11 +50,35 @@ export async function getDashboardData(userId: string): Promise<DashboardData> {
     createdAt: p.created_at,
   }));
 
+  // Actividad por día (últimos 7 días)
+  const now = new Date();
+  const activityByDay: Array<{ day: string; count: number }> = [];
+  const dayNames = ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"];
+
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(now);
+    d.setDate(d.getDate() - i);
+    d.setHours(0, 0, 0, 0);
+    const nextD = new Date(d);
+    nextD.setDate(nextD.getDate() + 1);
+
+    const count = allPrompts.filter((p) => {
+      const created = new Date(p.created_at);
+      return created >= d && created < nextD;
+    }).length;
+
+    activityByDay.push({
+      day: dayNames[d.getDay()] ?? "??",
+      count,
+    });
+  }
+
   return {
     totalPrompts,
     avgQuality,
     totalTokens,
     timeSaved,
     recentPrompts,
+    activityByDay,
   };
 }

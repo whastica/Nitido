@@ -55,9 +55,18 @@ export function OptimizerSidebar({
     (activeTab === "document" && !!file) ||
     (activeTab === "voice" && text.trim().length > 10);
 
+  const getSourceType = (file: File | null, tab: InputTab): InputSourceType => {
+    if (tab === "voice") return "voice";
+    if (tab === "text") return "text";
+    if (!file) return "pdf";
+    const ext = file.name.split(".").pop()?.toLowerCase();
+    if (ext === "docx" || ext === "doc") return "docx";
+    if (ext === "txt") return "txt";
+    return "pdf";
+  };
+
   const handleOptimize = () => {
-    const sourceType: InputSourceType =
-      activeTab === "document" ? "pdf" : activeTab === "voice" ? "voice" : "text";
+    const sourceType = getSourceType(file, activeTab);
     onOptimize(file, text, sourceType);
   };
 

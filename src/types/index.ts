@@ -237,12 +237,18 @@ export interface HistoryItem {
   createdAt: Date;
 }
 
+export interface DayActivity {
+  day: string;
+  count: number;
+}
+
 export interface DashboardData {
   totalPrompts: number;
   avgQuality: number;
   totalTokens: number;
   timeSaved: number;
   recentPrompts: HistoryItem[];
+  activityByDay: DayActivity[];
 }
 
 // ─── Misc ─────────────────────────────────────────────────────────────────────
