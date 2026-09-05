@@ -24,7 +24,7 @@ export default function SettingsPage() {
       <div>
         <h1 className="text-2xl font-heading font-bold text-foreground">Configuración</h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Personaliza tu experiencia en PromptOptimizer
+          Personaliza tu experiencia en Nitido
         </p>
       </div>
 

@@ -54,7 +54,7 @@ export function DashboardHeader() {
               <Zap className="h-4 w-4 fill-white text-white" />
             </div>
             <span className="font-heading text-[15px] font-700">
-              Prompt<span className="text-brand-400">Optimizer</span>
+              Nit<span className="text-brand-400">ido</span>
             </span>
           </Link>
 

@@ -27,7 +27,7 @@ export function AuthVisualPanel() {
         <div className="inline-flex items-center gap-2 rounded-full border border-brand-500/30 bg-brand-500/10 px-3 py-1.5">
           <div className="h-1.5 w-1.5 rounded-full bg-brand-400 animate-pulse" />
           <span className="text-[10px] font-700 uppercase tracking-widest text-brand-300">
-            PromptOptimizer
+            Nitido
           </span>
         </div>
         <h2 className="font-heading text-2xl font-800 text-foreground leading-tight">

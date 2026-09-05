@@ -47,7 +47,7 @@ export function LoginForm() {
       <div>
         <h1 className="font-heading text-xl font-700 text-foreground">Iniciar sesión</h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Accede a tu workspace de PromptOptimizer
+          Accede a tu workspace de Nitido
         </p>
       </div>
 

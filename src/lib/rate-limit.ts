@@ -28,7 +28,7 @@ function getRatelimit(): Ratelimit | null {
       "60 s"
     ),
     analytics: false,
-    prefix: "promptoptimizer:ratelimit",
+    prefix: "nitido:ratelimit",
   });
   return _ratelimit;
 }

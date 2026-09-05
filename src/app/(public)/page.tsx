@@ -106,7 +106,7 @@ const TESTIMONIALS = [
   {
     name: "María G.",
     role: "Marketing Manager",
-    text: "Pasaba 30 minutos redactando prompts. Ahora obtengo mejores resultados en menos de 2 minutos. PromptOptimizer cambió mi flujo de trabajo.",
+    text: "Pasaba 30 minutos redactando prompts. Ahora obtengo mejores resultados en menos de 2 minutos. Nitido cambió mi flujo de trabajo.",
   },
   {
     name: "Carlos R.",

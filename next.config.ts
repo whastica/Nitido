@@ -14,7 +14,7 @@ const nextConfig: NextConfig = {
     const isDev = process.env.NODE_ENV === "development";
     const allowedOrigin = isDev
       ? "*"
-      : (process.env.NEXT_PUBLIC_APP_URL ?? "https://promptoptimizer.ai");
+      : (process.env.NEXT_PUBLIC_APP_URL ?? "https://nitido-nu.vercel.app");
 
     return [
       {

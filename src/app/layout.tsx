@@ -19,8 +19,8 @@ const syne = Syne({
 
 export const metadata: Metadata = {
   title: {
-    default: "PromptOptimizer — Optimiza tus Prompts con IA",
-    template: "%s | PromptOptimizer",
+    default: "Nitido — Optimiza tus Prompts con IA",
+    template: "%s | Nitido",
   },
   description:
     "Transforma tus ideas en prompts estructurados y de alta calidad para cualquier herramienta de IA.",
@@ -32,11 +32,11 @@ export const metadata: Metadata = {
     "Claude",
     "Gemini",
   ],
-  authors: [{ name: "PromptOptimizer" }],
+  authors: [{ name: "Nitido" }],
   openGraph: {
     type: "website",
     locale: "es_CO",
-    siteName: "PromptOptimizer",
+    siteName: "Nitido",
   },
 };
 

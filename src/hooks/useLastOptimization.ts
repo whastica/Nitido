@@ -3,7 +3,7 @@
 import { useState, useCallback, useEffect } from "react";
 import type { OptimizationResult } from "@/types";
 
-const STORAGE_KEY = "promptoptimizer:lastResult";
+const STORAGE_KEY = "nitido:lastResult";
 
 function loadFromStorage(): OptimizationResult | null {
   if (typeof window === "undefined") return null;

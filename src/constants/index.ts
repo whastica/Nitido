@@ -1,6 +1,6 @@
 import type { TargetTool, OutputFormat, OptimizationConfig } from "@/types";
 
-export const APP_NAME = "PromptOptimizer";
+export const APP_NAME = "Nitido";
 export const APP_DESCRIPTION =
   "Transforma tus ideas en prompts estructurados y de alta calidad para cualquier herramienta de IA.";
 

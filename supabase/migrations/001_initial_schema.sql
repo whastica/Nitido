@@ -1,5 +1,5 @@
 -- ═══════════════════════════════════════════════════════════════
--- PromptOptimizer — Initial Schema Migration
+-- Nitido — Initial Schema Migration
 -- ═══════════════════════════════════════════════════════════════
 
 -- Tabla principal de prompts optimizados

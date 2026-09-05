@@ -24,7 +24,7 @@ export default function PublicLayout({
               <Zap className="h-4 w-4 fill-white text-white" />
             </div>
             <span className="font-heading text-[15px] font-700">
-              Prompt<span className="text-brand-400">Optimizer</span>
+              Nit<span className="text-brand-400">ido</span>
             </span>
           </Link>
 
@@ -74,7 +74,7 @@ export default function PublicLayout({
                   <Zap className="h-4 w-4 fill-white text-white" />
                 </div>
                 <span className="font-heading text-[15px] font-700">
-                  Prompt<span className="text-brand-400">Optimizer</span>
+                  Nit<span className="text-brand-400">ido</span>
                 </span>
               </Link>
               <p className="max-w-xs text-xs text-muted-foreground">
@@ -137,7 +137,7 @@ export default function PublicLayout({
 
           <div className="mt-10 border-t border-border/50 pt-6 text-center">
             <p className="text-[11px] text-muted-foreground/60">
-              &copy; {new Date().getFullYear()} PromptOptimizer. Todos los
+              &copy; {new Date().getFullYear()} Nitido. Todos los
               derechos reservados.
             </p>
           </div>

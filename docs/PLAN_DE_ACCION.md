@@ -1,4 +1,4 @@
-# Plan de Acción — PromptOptimizer
+# Plan de Acción — Nitido
 
 > Última actualización: 2026-09-02.
 > **Estrategia:** Front-end primero con mocks → Back-end + DB después.
