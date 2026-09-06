@@ -18,3 +18,16 @@ export async function requireAuth(): Promise<AuthContext> {
     getToken: session.getToken,
   };
 }
+
+export async function getOptionalAuth(): Promise<AuthContext | null> {
+  const session = await auth();
+
+  if (!session.userId) {
+    return null;
+  }
+
+  return {
+    userId: session.userId,
+    getToken: session.getToken,
+  };
+}

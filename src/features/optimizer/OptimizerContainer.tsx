@@ -8,6 +8,7 @@ import { OptimizerEmpty } from "./OptimizerEmpty";
 import { OptimizerLoader } from "./OptimizerLoader";
 import { useOptimization } from "@/hooks/useOptimization";
 import { useLastOptimization } from "@/hooks/useLastOptimization";
+import { useAuth } from "@/hooks/useAuth";
 import type { OptimizationConfig, InputSourceType } from "@/types";
 import { DEFAULT_OPTIMIZATION_CONFIG } from "@/constants";
 
@@ -15,6 +16,7 @@ export function OptimizerContainer() {
   const [config, setConfig] = useState<OptimizationConfig>(DEFAULT_OPTIMIZATION_CONFIG);
   const queryClient = useQueryClient();
   const { result: persistedResult, setResult: saveResult, clearResult } = useLastOptimization();
+  const { user } = useAuth();
 
   const invalidateCaches = useCallback(() => {
     void queryClient.invalidateQueries({ queryKey: ["dashboard"] });
@@ -69,7 +71,7 @@ export function OptimizerContainer() {
       <div className="flex flex-1 flex-col overflow-auto md:overflow-hidden bg-background min-h-0">
         {status === "idle" && !persistedResult && <OptimizerEmpty />}
         {status === "idle" && persistedResult && (
-          <OptimizerResults result={persistedResult} warning={null} onReset={handleReset} />
+          <OptimizerResults result={persistedResult} warning={null} onReset={handleReset} isAuthenticated={!!user} />
         )}
         {(status === "uploading" ||
           status === "transcribing" ||
@@ -79,7 +81,7 @@ export function OptimizerContainer() {
           <OptimizerLoader steps={steps} status={status} />
         )}
         {status === "done" && freshResult && (
-          <OptimizerResults result={freshResult} warning={warning} onReset={handleReset} />
+          <OptimizerResults result={freshResult} warning={warning} onReset={handleReset} isAuthenticated={!!user} />
         )}
         {status === "error" && (
           <div className="flex flex-1 items-center justify-center p-8">

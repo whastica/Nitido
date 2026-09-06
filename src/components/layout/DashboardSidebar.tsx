@@ -13,7 +13,7 @@ import { Badge } from "@/components/ui/badge";
 
 const NAV_ITEMS = [
   { label: "Dashboard",     href: ROUTES.dashboard, icon: LayoutDashboard, strict: true },
-  { label: "Optimizar",     href: ROUTES.optimize,  icon: Sparkles,       strict: false },
+  { label: "Optimizar",     href: ROUTES.dashboardOptimize,  icon: Sparkles,       strict: false },
   { label: "Historial",     href: ROUTES.history,   icon: History,        strict: false },
   { label: "Configuración", href: ROUTES.settings,  icon: Settings,       strict: false },
 ] as const;

@@ -1,7 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { apiError, catchApiError } from "@/lib/api";
-import { requireAuth } from "@/lib/auth";
+import { getOptionalAuth } from "@/lib/auth";
 import { logger } from "@/lib/logger";
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit";
 import { useMockAI, useMockDB, env } from "@/lib/env";
@@ -107,7 +107,7 @@ async function mockOptimizationPipeline(
       id: `prompt_${Date.now()}`,
       inputText: text,
       sourceType,
-      generatedPrompt: structured.tarea,
+      generatedPrompt: compactPrompt,
       structuredPrompt: structured,
       compactPrompt,
       qualityScore: 88,
@@ -236,7 +236,7 @@ Formato de salida: ${config.outputFormat}`;
       id: `prompt_${Date.now()}`,
       inputText: text,
       sourceType,
-      generatedPrompt: sp.tarea,
+      generatedPrompt: compactPrompt,
       structuredPrompt: sp,
       compactPrompt,
       qualityScore,
@@ -260,9 +260,10 @@ Formato de salida: ${config.outputFormat}`;
 
 export async function POST(req: NextRequest) {
   return catchApiError(async () => {
-    const { userId } = await requireAuth();
+    const authCtx = await getOptionalAuth();
+    const userId = authCtx?.userId ?? null;
     const requestId = `opt_${Date.now()}`;
-    logger.info("optimize: request received", { requestId });
+    logger.info("optimize: request received", { requestId, authenticated: !!userId });
 
     const rateLimit = await checkRateLimit(getClientIp(req));
     if (!rateLimit.allowed) {
@@ -295,7 +296,7 @@ export async function POST(req: NextRequest) {
             result = await openAIOptimizationPipeline(text, sourceType, config, controller, encoder, requestId);
           }
 
-          if (!useMockDB) {
+          if (!useMockDB && userId) {
             try {
               const savedPrompt = await savePrompt({
                 userId,

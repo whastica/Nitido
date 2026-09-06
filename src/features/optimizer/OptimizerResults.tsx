@@ -1,16 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { Copy, RefreshCw, Check, AlertTriangle, ChevronDown, ChevronUp } from "lucide-react";
+import Link from "next/link";
+import { Copy, RefreshCw, Check, AlertTriangle, ChevronDown, ChevronUp, LogIn, Save } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { cn, formatRelativeTime } from "@/lib/utils";
+import { ROUTES } from "@/constants";
 import type { OptimizationResult } from "@/types";
 
 interface OptimizerResultsProps {
   result: OptimizationResult;
   warning: string | null;
   onReset: () => void;
+  isAuthenticated: boolean;
 }
 
 const SCORE_STYLES: Record<"high" | "medium" | "low", string> = {
@@ -33,14 +36,14 @@ const SOURCE_LABELS: Record<"text" | "pdf" | "docx" | "txt" | "voice", string> =
   voice: "Voz",
 };
 
-export function OptimizerResults({ result, warning, onReset }: OptimizerResultsProps) {
+export function OptimizerResults({ result, warning, onReset, isAuthenticated }: OptimizerResultsProps) {
   const [copied, setCopied] = useState(false);
   const [expanded, setExpanded] = useState(true);
 
   const { prompt } = result;
 
   const handleCopyAll = async () => {
-    await navigator.clipboard.writeText(prompt.generatedPrompt);
+    await navigator.clipboard.writeText(prompt.compactPrompt);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -52,6 +55,24 @@ export function OptimizerResults({ result, warning, onReset }: OptimizerResultsP
         <div className="flex items-center gap-2 border-b border-amber-500/30 bg-amber-500/10 px-5 py-2.5">
           <AlertTriangle className="h-4 w-4 text-amber-400 flex-shrink-0" />
           <p className="text-xs text-amber-300">{warning}</p>
+        </div>
+      )}
+
+      {/* Login recommendation banner */}
+      {!isAuthenticated && (
+        <div className="flex items-center justify-between gap-3 border-b border-brand-500/30 bg-brand-500/8 px-5 py-2.5">
+          <div className="flex items-center gap-2">
+            <Save className="h-4 w-4 text-brand-400 flex-shrink-0" />
+            <p className="text-xs text-brand-300">
+              Inicia sesión para guardar tus prompts y acceder a ellos desde el historial
+            </p>
+          </div>
+          <Link href={ROUTES.login}>
+            <Button variant="outline" size="sm" className="h-6 gap-1 text-[11px] border-brand-500/30 text-brand-400 hover:bg-brand-500/10">
+              <LogIn className="h-3 w-3" />
+              Iniciar sesión
+            </Button>
+          </Link>
         </div>
       )}
 
@@ -106,7 +127,7 @@ export function OptimizerResults({ result, warning, onReset }: OptimizerResultsP
             className="flex items-center justify-between p-4 cursor-pointer"
             onClick={() => setExpanded(!expanded)}
           >
-            <p className="text-[10px] font-700 uppercase tracking-widest text-muted-foreground">
+            <p className="text-xs font-700 uppercase tracking-widest text-muted-foreground">
               Prompt compacto
             </p>
             {expanded ? (
@@ -117,7 +138,7 @@ export function OptimizerResults({ result, warning, onReset }: OptimizerResultsP
           </div>
           {expanded && (
             <div className="px-4 pb-4">
-              <div className="rounded-lg border-l-2 border-brand-500 bg-muted/30 px-3 py-2.5 text-sm text-muted-foreground leading-relaxed whitespace-pre-wrap">
+              <div className="rounded-lg border-l-2 border-brand-500 bg-muted/30 px-3 py-2.5 text-base text-muted-foreground leading-relaxed whitespace-pre-wrap">
                 {prompt.compactPrompt}
               </div>
             </div>
@@ -126,7 +147,7 @@ export function OptimizerResults({ result, warning, onReset }: OptimizerResultsP
 
         {/* Prompt estructurado */}
         <div className="rounded-xl border border-border bg-card/60 p-4 space-y-3">
-          <p className="text-[10px] font-700 uppercase tracking-widest text-muted-foreground">
+          <p className="text-xs font-700 uppercase tracking-widest text-muted-foreground">
             Prompt estructurado
           </p>
           <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
@@ -137,12 +158,12 @@ export function OptimizerResults({ result, warning, onReset }: OptimizerResultsP
           </div>
           {prompt.structuredPrompt.instrucciones.length > 0 && (
             <div className="space-y-1.5">
-              <p className="text-[10px] font-600 uppercase tracking-wider text-muted-foreground">
+              <p className="text-xs font-600 uppercase tracking-wider text-muted-foreground">
                 Instrucciones
               </p>
               <ul className="space-y-1">
                 {prompt.structuredPrompt.instrucciones.map((inst, i) => (
-                  <li key={i} className="flex items-start gap-2 text-xs text-muted-foreground">
+                  <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
                     <span className="text-brand-400 font-medium">{i + 1}.</span>
                     {inst}
                   </li>
@@ -152,12 +173,12 @@ export function OptimizerResults({ result, warning, onReset }: OptimizerResultsP
           )}
           {prompt.structuredPrompt.ejemplos.length > 0 && (
             <div className="space-y-1.5">
-              <p className="text-[10px] font-600 uppercase tracking-wider text-muted-foreground">
+              <p className="text-xs font-600 uppercase tracking-wider text-muted-foreground">
                 Ejemplos
               </p>
               <ul className="space-y-1">
                 {prompt.structuredPrompt.ejemplos.map((ej, i) => (
-                  <li key={i} className="text-xs text-muted-foreground pl-3 border-l border-border">
+                  <li key={i} className="text-sm text-muted-foreground pl-3 border-l border-border">
                     {ej}
                   </li>
                 ))}
@@ -166,12 +187,12 @@ export function OptimizerResults({ result, warning, onReset }: OptimizerResultsP
           )}
           {prompt.structuredPrompt.limitaciones.length > 0 && (
             <div className="space-y-1.5">
-              <p className="text-[10px] font-600 uppercase tracking-wider text-muted-foreground">
+              <p className="text-xs font-600 uppercase tracking-wider text-muted-foreground">
                 Limitaciones
               </p>
               <div className="flex flex-wrap gap-1.5">
                 {prompt.structuredPrompt.limitaciones.map((lim, i) => (
-                  <span key={i} className="text-[10px] text-amber-400/80 bg-amber-500/10 rounded px-2 py-1">
+                  <span key={i} className="text-xs text-amber-400/80 bg-amber-500/10 rounded px-2 py-1">
                     {lim}
                   </span>
                 ))}
@@ -179,7 +200,7 @@ export function OptimizerResults({ result, warning, onReset }: OptimizerResultsP
             </div>
           )}
           {prompt.structuredPrompt.pregunta_clave && (
-            <div className="rounded-lg bg-muted/30 px-3 py-2 text-xs text-muted-foreground">
+            <div className="rounded-lg bg-muted/30 px-3 py-2 text-sm text-muted-foreground">
               <span className="font-medium text-foreground">Pregunta clave:</span>{" "}
               {prompt.structuredPrompt.pregunta_clave}
             </div>
@@ -233,7 +254,7 @@ function CardSection({ label, value }: { label: string; value: string }) {
   return (
     <div className="space-y-1">
       <p className="text-[10px] font-600 uppercase tracking-wider text-muted-foreground">{label}</p>
-      <p className="text-xs text-foreground leading-relaxed">{value}</p>
+      <p className="text-sm text-foreground leading-relaxed">{value}</p>
     </div>
   );
 }

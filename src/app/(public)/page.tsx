@@ -155,7 +155,7 @@ export default function LandingPage() {
             {/* CTAs */}
             <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row">
               <Link
-                href={ROUTES.login}
+                href={ROUTES.optimize}
                 className="group flex items-center gap-2 rounded-xl bg-brand-500 px-6 py-3 text-sm font-600 text-white shadow-lg shadow-brand-500/25 transition-all hover:bg-brand-600 hover:shadow-xl hover:shadow-brand-500/30"
               >
                 Comenzar gratis
@@ -361,7 +361,7 @@ export default function LandingPage() {
             efectivos. Gratis, sin tarjeta de crédito.
           </p>
           <Link
-            href={ROUTES.login}
+            href={ROUTES.optimize}
             className="mt-8 inline-flex items-center gap-2 rounded-xl bg-brand-500 px-8 py-3.5 text-sm font-600 text-white shadow-lg shadow-brand-500/25 transition-all hover:bg-brand-600 hover:shadow-xl hover:shadow-brand-500/30"
           >
             <CheckCircle2 className="h-4 w-4" />

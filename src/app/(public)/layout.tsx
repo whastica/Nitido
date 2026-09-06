@@ -49,7 +49,7 @@ export default function PublicLayout({
               Iniciar sesión
             </Link>
             <Link
-              href={ROUTES.login}
+              href={ROUTES.optimize}
               className="rounded-lg bg-brand-500 px-4 py-2 text-sm font-semibold text-white transition-all hover:bg-brand-600 hover:shadow-lg hover:shadow-brand-500/20"
             >
               Comenzar gratis
@@ -107,7 +107,7 @@ export default function PublicLayout({
                   </li>
                   <li>
                     <Link
-                      href={ROUTES.login}
+                      href={ROUTES.optimize}
                       className="text-xs text-muted-foreground transition-colors hover:text-foreground"
                     >
                       Comenzar

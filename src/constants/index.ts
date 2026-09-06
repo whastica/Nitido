@@ -9,7 +9,8 @@ export const ROUTES = {
   login: "/login",
   register: "/register",
   dashboard: "/dashboard",
-  optimize: "/dashboard/optimize",
+  optimize: "/optimize",
+  dashboardOptimize: "/dashboard/optimize",
   history: "/dashboard/history",
   settings: "/dashboard/settings",
 } as const;
